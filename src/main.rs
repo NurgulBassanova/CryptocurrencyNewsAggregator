@@ -4,24 +4,32 @@ mod models;
 use models::{SearchQuery, SearchResponse, Coin};
 use actix_files::Files;
 use reqwest;
+use std::env;
 
 // Fetch cryptocurrency data using the CoinGecko API
-async fn fetch_crypto_data(query: &str) -> Result<Vec<Coin>, reqwest::Error> {
-    dotenv().ok(); 
-    
+async fn fetch_articles(query: &str) -> Result<Vec<Article>, reqwest::Error> {
+    let api_key = std::env::var("NEWS_API_KEY").expect("NEWS_API_KEY not set in .env");
+
     let url = format!(
-        "https://api.coingecko.com/api/v3/search?query={}",
-        query
+        "https://newsapi.org/v2/everything?q={}&apiKey={}",
+        query, api_key
     );
 
-    let client = reqwest::Client::new();
-    let response = client
-        .get(&url)
-        .send()
-        .await?;
+    let response = reqwest::get(&url).await?.json::<serde_json::Value>().await?;
 
-    let parsed: SearchResponse = response.json().await?;
-    Ok(parsed.coins)
+    let articles = response["articles"]
+        .as_array()
+        .unwrap_or(&vec![])
+        .iter()
+        .map(|a| Article {
+            title: a["title"].as_str().unwrap_or("").to_string(),
+            description: a["description"].as_str().map(|s| s.to_string()),
+            url: a["url"].as_str().unwrap_or("").to_string(),
+        })
+        .collect();
+
+    Ok(articles)
+} Ok(parsed.coins)
 }
 
 async fn index() -> impl Responder {
@@ -48,10 +56,9 @@ async fn index() -> impl Responder {
 
 // Search for cryptocurrency information
 async fn search_crypto(query: web::Query<SearchQuery>) -> impl Responder {
-    dotenv().ok();
     let crypto_query = &query.q;
 
-    let coins = fetch_crypto_data(crypto_query).await.unwrap_or_default();
+    let coins = fetch_articles(crypto_query).await.unwrap_or_default();
 
     let mut results_html = String::new();
 
@@ -97,7 +104,12 @@ async fn search_crypto(query: web::Query<SearchQuery>) -> impl Responder {
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     dotenv().ok();
-    let port = 8080;
+    
+    // Get port from environment variable, with fallback to 8080
+    let port = env::var("PORT")
+        .unwrap_or_else(|_| "8080".to_string())
+        .parse::<u16>()
+        .expect("PORT must be a number");
 
     println!("Server running at http://localhost:{}/", port);
 
