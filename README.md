@@ -1,5 +1,7 @@
 # Cryptocurrency News Aggregator
-### by Tamyzgazina Ulzhan & Bassanova Nurgul
+### Students Name and Group:
+- Bassanova Nurgul (SE-2323)
+- Tamyzgazina Ulzhan (SE-2325)
 
 ## Project Overview
 Cryptocurrency News Aggregator is a Rust-based web service that aggregates and displays the latest cryptocurrency news from external APIs. It offers a clean, browser-accessible interface where users can search for crypto-related news by keyword and view a list of relevant articles.
@@ -19,6 +21,63 @@ Cryptocurrency News Aggregator is a Rust-based web service that aggregates and d
 - dotenv — For environment-based configuration
 - Tokio — Asynchronous runtime for Rust
 
+##  Installation & Setup
+
+### Prerequisites
+- [Rust](https://www.rust-lang.org/tools/install)
+- `cargo` (comes with Rust)
+- A valid [NewsAPI](https://newsapi.org/) API key
+
+### Steps
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/your-username/crypto_news_aggregator.git
+   cd crypto_news_aggregator
+   ```
+
+2. **Create a `.env` file**
+   ```env
+   NEWS_API_KEY=our_news_api_key_here
+   PORT=8080
+   ```
+
+3. **Build and run the application**
+   ```bash
+   cargo run
+   ```
+
+4. **Open your browser**
+   ```
+   http://localhost:8080
+   ```
+
+
+##  Usage
+
+- **Home Page**: Simple search bar for entering crypto keywords (e.g., `Bitcoin`, `Ethereum`).
+- **Results Page**: Displays a list of news articles relevant to the keyword, including title, description, and source link.
+
+
+## Folder Structure
+
+```
+.
+├── src/
+│   ├── main.rs              # Main app logic & Actix routes
+│   ├── models.rs            # Structs for parsing API responses
+│   └── news_service.rs      # News fetching logic
+├── static/
+│   └── style.css            # Static CSS files
+├── .env                     # Environment variables
+├── Cargo.toml               # Rust project configuration
+└── README.md                # Project description and instructions
+```
+
+## Screenshoots
+![homepage](./screens/main.png)
+![searching bar](./screens/search.png)
+![cryptonews](./screens/results.png)
 
 
 ## MIT License
