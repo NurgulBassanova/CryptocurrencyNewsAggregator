@@ -1,11 +1,23 @@
 # Cryptocurrency News Aggregator
-### by Tamyzgazina Ulzhan(SE-2325) & Bassanova Nurgul(SE-2323)
+### by Tamyzgazina Ulzhan & Bassanova Nurgul
 
 ## Project Overview
-This Rust-based service aggregates cryptocurrency news from multiple API sources, providing users with a unified view of the latest market developments. The system:
-- Collects real-time crypto news through API integration
-- Serves content through a lightweight web interface
+Cryptocurrency News Aggregator is a Rust-based web service that aggregates and displays the latest cryptocurrency news from external APIs. It offers a clean, browser-accessible interface where users can search for crypto-related news by keyword and view a list of relevant articles.
 
+## Key Features
+- Real-time news aggregation from NewsAPI
+- Lightweight and responsive web interface using Actix Web
+- Search functionality for cryptocurrency-specific terms
+- Easy configuration with environment variables
+
+## Technologies Used
+- Rust — Core language used for backend logic
+- Actix-Web — Web framework for routing and serving HTML
+- Reqwest — HTTP client used to call external news APIs
+- NewsAPI — Main source for cryptocurrency news articles
+- Serde — For parsing and serializing JSON responses
+- dotenv — For environment-based configuration
+- Tokio — Asynchronous runtime for Rust
 
 
 
